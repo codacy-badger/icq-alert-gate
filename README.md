@@ -1,2 +1,6 @@
-# grafana-icq-gate
-Forward Grafana alerts to ICQ
+# icq-alert-gate
+Send alerts to ICQ.
+
+Supported alerts from:
+ * Grafana
+ 

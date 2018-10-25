@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo"
 	"io"
 	"io/ioutil"
+	"sources"
 )
 
 func (p *Provider) handleMessage(c echo.Context) error {
@@ -24,7 +25,7 @@ func parseMessage(data io.ReadCloser) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	grafanaMsg := GrafanaMessage{}
+	grafanaMsg := sources.GrafanaMessage{}
 	err = json.Unmarshal(messageBytes, &grafanaMsg)
 	if err != nil {
 		return "", err
