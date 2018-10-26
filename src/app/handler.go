@@ -1,34 +1,19 @@
 package app
 
 import (
-	"encoding/json"
 	"github.com/labstack/echo"
-	"io"
-	"io/ioutil"
-	"sources"
 )
 
-func (p *Provider) handleMessage(c echo.Context) error {
-	target := c.Param("target")
-	data := c.Request().Body
-	defer data.Close()
-	message, err := parseMessage(data)
+func (p *Provider) handlePUT(c echo.Context) error {
+	data := c.Request()
+	payload, err := p.payloadBySourceName(c.Param("source"))
 	if err != nil {
 		return err
 	}
-	_, err = p.Bot.SendIm(target, message)
+	messageString, err := payload.Parse(data)
+	if err != nil {
+		return err
+	}
+	_, err = p.Bot.SendIm(c.Param("target"), messageString)
 	return err
-}
-
-func parseMessage(data io.ReadCloser) (string, error) {
-	messageBytes, err := ioutil.ReadAll(data)
-	if err != nil {
-		return "", err
-	}
-	grafanaMsg := sources.GrafanaMessage{}
-	err = json.Unmarshal(messageBytes, &grafanaMsg)
-	if err != nil {
-		return "", err
-	}
-	return grafanaMsg.String(), nil
 }

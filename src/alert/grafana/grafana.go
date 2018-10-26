@@ -1,7 +1,11 @@
-package sources
+package grafana
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
@@ -44,7 +48,16 @@ type GrafanaMessage struct {
 	EvalMatches []MetricValue `json:"evalMatches"`
 }
 
-func (gm *GrafanaMessage) String() string {
+func parseData(data io.ReadCloser) (string, error) {
+	messageBytes, err := ioutil.ReadAll(data)
+	if err != nil {
+		return "", err
+	}
+	gm := GrafanaMessage{}
+	err = json.Unmarshal(messageBytes, &gm)
+	if err != nil {
+		return "", err
+	}
 	lines := []string{
 		gm.Title,
 		gm.Message,
@@ -52,5 +65,10 @@ func (gm *GrafanaMessage) String() string {
 	for _, metric := range gm.EvalMatches {
 		lines = append(lines, metric.Metric+": "+fmt.Sprint(metric.Value))
 	}
-	return strings.Join(lines, "\n")
+	return strings.Join(lines, "\n"), nil
+}
+
+func (gm GrafanaMessage) Parse(req *http.Request) (string, error) {
+	data := req.Body
+	return parseData(data)
 }

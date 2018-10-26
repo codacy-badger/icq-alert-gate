@@ -15,9 +15,9 @@ func init() {
 }
 
 func main() {
-	botUin := os.Getenv("BOT_UIN")         // required
 	botToken := os.Getenv("BOT_TOKEN")     // required
-	botNick := os.Getenv("BOT_NICK")       // required
+	botUin := os.Getenv("BOT_UIN")         // optional
+	botNick := os.Getenv("BOT_NICK")       // optional
 	botName := os.Getenv("BOT_NAME")       // optional
 	botVersion := os.Getenv("BOT_VERSION") // optional
 	if botName == "" {
