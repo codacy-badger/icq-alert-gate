@@ -2,16 +2,14 @@ package main
 
 import (
 	"app"
-	"crypto/tls"
 	"github.com/labstack/gommon/log"
 	"github.com/slavyan85/gocq"
-	"net/http"
 	"os"
 )
 
 func init() {
 	log.SetLevel(log.INFO)
-	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	//http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 }
 
 func main() {
