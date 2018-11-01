@@ -5,9 +5,9 @@ WORKDIR /app
 COPY . .
 RUN apk add --no-cache git
 RUN go get -d -v ./...
-RUN go build -o gigate src/gigate.go
+RUN go build -o icqgate src/icqgate.go
 
 FROM alpine:latest
 RUN apk add --no-cache ca-certificates
-COPY --from=builder /app/gigate .
-CMD ["./gigate"]
+COPY --from=builder /app/icqgate .
+CMD ["./icqgate"]
