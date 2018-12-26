@@ -1,15 +1,15 @@
-package app
+package web
 
 import (
-	"alert"
-	"alert/grafana"
 	"errors"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/slavyan85/gocq"
+	"webhook"
+	"webhook/grafana"
 )
 
-var payloadSourceMap = map[string]alert.Payload{
+var payloadSourceMap = map[string]webhook.Payload{
 	"grafana": grafana.GrafanaMessage{},
 }
 
@@ -18,7 +18,7 @@ type Provider struct {
 	instance *echo.Echo
 }
 
-func (Provider) payloadBySourceName(sourceName string) (alert.Payload, error) {
+func (Provider) payloadBySourceName(sourceName string) (webhook.Payload, error) {
 	payload, ok := payloadSourceMap[sourceName]
 	if !ok {
 		return nil, errors.New("unknown alert source")
@@ -39,7 +39,7 @@ func (p *Provider) initEcho() {
 
 }
 
-func (p *Provider) Start() {
+func (p *Provider) Start(failChan chan error) {
 	p.initEcho()
-	p.instance.Logger.Fatal(p.instance.Start(":8888"))
+	failChan <- p.instance.Start(":8888")
 }

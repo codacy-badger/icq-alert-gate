@@ -1,4 +1,4 @@
-package alert
+package webhook
 
 import (
 	"net/http"
