@@ -7,10 +7,12 @@ import (
 	"github.com/slavyan85/gocq"
 	"webhook"
 	"webhook/grafana"
+	"webhook/jenkins"
 )
 
 var payloadSourceMap = map[string]webhook.Payload{
-	"grafana": grafana.GrafanaMessage{},
+	"grafana":          grafana.GrafanaMessage{},
+	"jenkins-outbound": jenkins.OutboundMessage{},
 }
 
 type Provider struct {
@@ -33,7 +35,8 @@ func (p *Provider) initEcho() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	//
-	e.PUT("/:source/:target", p.handlePUT)
+	e.PUT("/:source/:target", p.handleMessage)
+	e.POST("/:source/:target", p.handleMessage)
 	//
 	p.instance = e
 

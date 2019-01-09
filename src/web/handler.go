@@ -4,13 +4,12 @@ import (
 	"github.com/labstack/echo"
 )
 
-func (p *Provider) handlePUT(c echo.Context) error {
-	data := c.Request()
+func (p *Provider) handleMessage(c echo.Context) error {
 	payload, err := p.payloadBySourceName(c.Param("source"))
 	if err != nil {
 		return err
 	}
-	messageString, err := payload.Parse(data)
+	messageString, err := payload.Parse(c.Request())
 	if err != nil {
 		return err
 	}

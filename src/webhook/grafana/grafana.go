@@ -48,7 +48,7 @@ type GrafanaMessage struct {
 	EvalMatches []MetricValue `json:"evalMatches"`
 }
 
-func parseData(data io.ReadCloser) (string, error) {
+func parseGrafanaData(data io.ReadCloser) (string, error) {
 	messageBytes, err := ioutil.ReadAll(data)
 	if err != nil {
 		return "", err
@@ -69,6 +69,5 @@ func parseData(data io.ReadCloser) (string, error) {
 }
 
 func (gm GrafanaMessage) Parse(req *http.Request) (string, error) {
-	data := req.Body
-	return parseData(data)
+	return parseGrafanaData(req.Body)
 }

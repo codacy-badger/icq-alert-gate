@@ -2,5 +2,5 @@
 Send alerts to ICQ.
 
 Supported alerts from:
- * Grafana
- * Email
+ * [Grafana](https://grafana.com/)
+ * [Jenkins Outbound WebHook plugin](https://github.com/jenkinsci/outbound-webhook-plugin)
