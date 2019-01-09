@@ -39,7 +39,7 @@ func (p *Provider) initEcho() {
 
 }
 
-func (p *Provider) Start(failChan chan error) {
+func (p *Provider) Start() error {
 	p.initEcho()
-	failChan <- p.instance.Start(":8888")
+	return p.instance.Start(":8888")
 }

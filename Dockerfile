@@ -10,4 +10,5 @@ RUN go build -o icqgate src/icqgate.go
 FROM alpine:latest
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /app/icqgate .
+EXPOSE 8888
 CMD ["./icqgate"]
