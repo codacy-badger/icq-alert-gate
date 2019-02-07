@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/slavyan85/gocq"
+	"icq"
 	"webhook"
 	"webhook/grafana"
 	"webhook/jenkins"
@@ -16,7 +16,7 @@ var payloadSourceMap = map[string]webhook.Payload{
 }
 
 type Provider struct {
-	Bot      *gocq.Bot
+	Bot      *icq.Bot
 	instance *echo.Echo
 }
 

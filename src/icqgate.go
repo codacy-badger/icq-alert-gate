@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/labstack/gommon/log"
-	"github.com/slavyan85/gocq"
+	"icq"
 	"os"
 	"web"
 )
@@ -21,7 +21,7 @@ func main() {
 	if botName == "" {
 		botName = botNick
 	}
-	bot := gocq.Bot{
+	bot := icq.Bot{
 		//ApiURL:"http://localhost:5000",
 		Name:    botName,
 		Nick:    botNick,
