@@ -8,11 +8,13 @@ import (
 	"webhook"
 	"webhook/grafana"
 	"webhook/jenkins"
+	"webhook/raw"
 )
 
 var payloadSourceMap = map[string]webhook.Payload{
-	"grafana":          grafana.GrafanaMessage{},
-	"jenkins-outbound": jenkins.OutboundMessage{},
+	"raw":              raw.Message{},
+	"grafana":          grafana.Message{},
+	"jenkins-outbound": jenkins.Message{},
 }
 
 type Provider struct {

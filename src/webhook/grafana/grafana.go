@@ -37,7 +37,7 @@ type MetricValue struct {
 	//Tags interface{} `json:"tags"`
 }
 
-type GrafanaMessage struct {
+type Message struct {
 	RuleId      uint          `json:"ruleId"`
 	ImageUrl    string        `json:"imageUrl"`
 	Message     string        `json:"message"`
@@ -53,7 +53,7 @@ func parseGrafanaData(data io.ReadCloser) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	gm := GrafanaMessage{}
+	gm := Message{}
 	err = json.Unmarshal(messageBytes, &gm)
 	if err != nil {
 		return "", err
@@ -68,6 +68,6 @@ func parseGrafanaData(data io.ReadCloser) (string, error) {
 	return strings.Join(lines, "\n"), nil
 }
 
-func (gm GrafanaMessage) Parse(req *http.Request) (string, error) {
+func (gm Message) Parse(req *http.Request) (string, error) {
 	return parseGrafanaData(req.Body)
 }

@@ -15,7 +15,7 @@ import (
 //   "projectName":"icqWebhook"
 // }
 
-type OutboundMessage struct {
+type Message struct {
 	BuildName   string `json:"buildName"`
 	BuildUrl    string `json:"buildUrl"`
 	Event       string `json:"event"`
@@ -27,7 +27,7 @@ func parseOutboundData(data io.ReadCloser) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	om := OutboundMessage{}
+	om := Message{}
 	err = json.Unmarshal(messageBytes, &om)
 	if err != nil {
 		return "", err
@@ -40,6 +40,6 @@ func parseOutboundData(data io.ReadCloser) (string, error) {
 	return strings.Join(lines, "\n"), nil
 }
 
-func (m OutboundMessage) Parse(req *http.Request) (string, error) {
+func (m Message) Parse(req *http.Request) (string, error) {
 	return parseOutboundData(req.Body)
 }
