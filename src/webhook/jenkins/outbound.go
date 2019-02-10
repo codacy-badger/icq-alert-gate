@@ -15,14 +15,15 @@ import (
 //   "projectName":"icqWebhook"
 // }
 
+// Message represent data struct by Jenkins Outbound WebHook plugin
 type Message struct {
 	BuildName   string `json:"buildName"`
-	BuildUrl    string `json:"buildUrl"`
+	BuildURL    string `json:"buildUrl"`
 	Event       string `json:"event"`
 	ProjectName string `json:"projectName"`
 }
 
-func parseOutboundData(data io.ReadCloser) (string, error) {
+func transformMessage(data io.ReadCloser) (string, error) {
 	messageBytes, err := ioutil.ReadAll(data)
 	if err != nil {
 		return "", err
@@ -35,11 +36,12 @@ func parseOutboundData(data io.ReadCloser) (string, error) {
 	lines := []string{
 		"Status: " + strings.ToUpper(om.Event),
 		"Build: " + om.ProjectName + " :: " + om.BuildName,
-		"URL: " + om.BuildUrl,
+		"URL: " + om.BuildURL,
 	}
 	return strings.Join(lines, "\n"), nil
 }
 
+// Parse implement Payload.Parse()
 func (m Message) Parse(req *http.Request) (string, error) {
-	return parseOutboundData(req.Body)
+	return transformMessage(req.Body)
 }

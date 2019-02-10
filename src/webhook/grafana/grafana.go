@@ -31,24 +31,26 @@ import (
 //  "title": "[Alerting] Test notification"
 //}
 
+// MetricValue represent
 type MetricValue struct {
 	Metric string  `json:"metric"`
 	Value  float64 `json:"value"`
 	//Tags interface{} `json:"tags"`
 }
 
+// Message represent data struct by Grafana
 type Message struct {
-	RuleId      uint          `json:"ruleId"`
-	ImageUrl    string        `json:"imageUrl"`
+	RuleID      uint          `json:"ruleId"`
+	ImageURL    string        `json:"imageUrl"`
 	Message     string        `json:"message"`
 	RuleName    string        `json:"ruleName"`
-	RuleUrl     string        `json:"ruleUrl"`
+	RuleURL     string        `json:"ruleUrl"`
 	State       string        `json:"state"`
 	Title       string        `json:"title"`
 	EvalMatches []MetricValue `json:"evalMatches"`
 }
 
-func parseGrafanaData(data io.ReadCloser) (string, error) {
+func transformMessage(data io.ReadCloser) (string, error) {
 	messageBytes, err := ioutil.ReadAll(data)
 	if err != nil {
 		return "", err
@@ -68,6 +70,7 @@ func parseGrafanaData(data io.ReadCloser) (string, error) {
 	return strings.Join(lines, "\n"), nil
 }
 
+// Parse implement Payload.Parse()
 func (gm Message) Parse(req *http.Request) (string, error) {
-	return parseGrafanaData(req.Body)
+	return transformMessage(req.Body)
 }

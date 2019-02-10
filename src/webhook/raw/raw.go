@@ -7,9 +7,10 @@ import (
 	"net/http"
 )
 
+// Message represent data from any JSON
 type Message map[string]interface{}
 
-func parseRawData(data io.ReadCloser) (string, error) {
+func transformMessage(data io.ReadCloser) (string, error) {
 	messageBytes, err := ioutil.ReadAll(data)
 	if err != nil {
 		return "", err
@@ -19,13 +20,14 @@ func parseRawData(data io.ReadCloser) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	indentJson, err := json.MarshalIndent(rm, "", " ")
+	indentJSON, err := json.MarshalIndent(rm, "", " ")
 	if err != nil {
 		return "", err
 	}
-	return string(indentJson[:]), nil
+	return string(indentJSON[:]), nil
 }
 
+// Parse implement Payload.Parse()
 func (m Message) Parse(req *http.Request) (string, error) {
-	return parseRawData(req.Body)
+	return transformMessage(req.Body)
 }

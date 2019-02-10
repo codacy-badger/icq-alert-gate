@@ -17,6 +17,7 @@ var payloadSourceMap = map[string]webhook.Payload{
 	"jenkins-outbound": jenkins.Message{},
 }
 
+// Provider represent single instances of bot and echo
 type Provider struct {
 	Bot      *icq.Bot
 	instance *echo.Echo
@@ -44,6 +45,7 @@ func (p *Provider) initEcho() {
 
 }
 
+// Start prepare echo instance and start it
 func (p *Provider) Start() error {
 	p.initEcho()
 	return p.instance.Start(":8888")
